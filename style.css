@@ -25,7 +25,9 @@ body {
   padding: 16px;
   user-select: none;
 }
-
+h1 {
+  color: red;
+}
 .cabinet {
   width: 100%;
   max-width: 460px;
