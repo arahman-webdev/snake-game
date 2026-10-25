@@ -97,8 +97,6 @@ body::after {
 
 /* =========================
    ARCADE CABINET
-========================= */
-
 .cabinet {
   position: relative;
   z-index: 1;
