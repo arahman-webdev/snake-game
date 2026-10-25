@@ -1,11 +1,16 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 :root {
-  --bg: #0a0a12;
-  --cabinet: #15152a;
-  --neon-green: #39ff14;
-  --neon-pink: #ff2e88;
-  --neon-cyan: #00e5ff;
-  --neon-yellow: #ffe600;
-  --text: #e0e0ff;
+  --bg: #060611;
+  --cabinet: #111328;
+  --neon-green: #a3ff12;
+  --neon-pink: #ff3d91;
+  --neon-cyan: #29e6ff;
+  --neon-yellow: #ffe66d;
+  --text: #f3f3ff;
+  --muted: #9499b8;
+  --border: rgba(255, 255, 255, 0.12);
 }
 
 * {
@@ -14,100 +19,324 @@
   padding: 0;
 }
 
+h1 {
+  color: blue;
+}
+
 body {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, #1a1a3a 0%, var(--bg) 70%);
+  padding: 32px 16px;
+  overflow-x: hidden;
+  position: relative;
   color: var(--text);
   font-family: 'Press Start 2P', monospace;
-  padding: 16px;
   user-select: none;
+
+  background:
+    radial-gradient(
+      ellipse at 15% 15%,
+      rgba(255, 61, 145, 0.16),
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 85% 85%,
+      rgba(41, 230, 255, 0.13),
+      transparent 45%
+    ),
+    linear-gradient(145deg, #0c0d22, #05050d);
 }
-h1 {
-  color: red;
+
+/* Atmospheric retro grid */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.25;
+
+  background-image:
+    linear-gradient(
+      rgba(41, 230, 255, 0.09) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(41, 230, 255, 0.09) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 50%,
+    transparent
+  );
 }
+
+/* Floating ambient glow */
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(125, 55, 255, 0.13);
+  filter: blur(110px);
+  pointer-events: none;
+}
+
+/* =========================
+   ARCADE CABINET
 .cabinet {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 460px;
-  background: var(--cabinet);
-  border: 4px solid var(--neon-pink);
-  border-radius: 16px;
-  padding: 20px;
+  max-width: 490px;
+  padding: 26px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.065),
+      transparent 30%
+    ),
+    linear-gradient(
+      160deg,
+      #1a1c38,
+      #0d0e1e 75%
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  border-radius: 28px;
+
   box-shadow:
-    0 0 20px var(--neon-pink),
-    inset 0 0 30px rgba(255, 46, 136, 0.15);
+    0 30px 75px rgba(0, 0, 0, 0.65),
+    0 0 65px rgba(255, 61, 145, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -5px 18px rgba(0, 0, 0, 0.4);
+
+  transition: box-shadow 0.3s ease;
+}
+
+.cabinet:hover {
+  box-shadow:
+    0 35px 85px rgba(0, 0, 0, 0.7),
+    0 0 70px rgba(255, 61, 145, 0.18),
+    0 0 40px rgba(41, 230, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Top neon accent */
+
+.cabinet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  width: 70%;
+  height: 3px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-pink),
+    var(--neon-cyan),
+    transparent
+  );
+
+  box-shadow:
+    0 0 18px var(--neon-pink),
+    0 0 24px rgba(41, 230, 255, 0.4);
+}
+
+/* =========================
+   MARQUEE
+========================= */
+
+.marquee {
+  position: relative;
+  padding: 16px 6px 20px;
+  text-align: center;
 }
 
 .marquee h1 {
-  text-align: center;
-  font-size: 2.2rem;
-  letter-spacing: 0.4rem;
+  font-size: clamp(1.15rem, 5vw, 2rem);
+  line-height: 1.7;
+  letter-spacing: 0.06em;
   color: var(--neon-yellow);
+
   text-shadow:
-    0 0 6px var(--neon-yellow),
-    0 0 18px #ff9900,
-    4px 4px 0 var(--neon-pink);
-  margin-bottom: 18px;
+    0 0 8px rgba(255, 230, 109, 0.6),
+    0 0 25px rgba(255, 190, 40, 0.35),
+    3px 4px 0 #a02670;
+
+  animation: titleGlow 3s ease-in-out infinite;
 }
+
+.marquee::after {
+  content: "";
+  display: block;
+  width: 110px;
+  height: 3px;
+  margin: 15px auto 0;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-pink),
+    var(--neon-cyan),
+    transparent
+  );
+}
+
+/* =========================
+   SCORE HUD
+========================= */
 
 .hud {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  font-size: 0.65rem;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.hud > * {
+  min-width: 0;
+  flex: 1;
+  padding: 13px 10px;
+  border: 1px solid rgba(41, 230, 255, 0.2);
+  border-radius: 10px;
+
+  background: rgba(5, 10, 25, 0.65);
   color: var(--neon-cyan);
-  text-shadow: 0 0 6px var(--neon-cyan);
-  margin-bottom: 12px;
+
+  font-size: clamp(0.43rem, 1.5vw, 0.58rem);
+  line-height: 1.8;
+  text-align: center;
+
+  box-shadow:
+    inset 0 0 15px rgba(41, 230, 255, 0.035),
+    0 5px 15px rgba(0, 0, 0, 0.13);
 }
 
 .hud span {
   color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
 }
+
+/* =========================
+   GAME SCREEN
+========================= */
 
 .screen {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  border: 4px solid #333;
-  border-radius: 8px;
+  aspect-ratio: 1;
+  padding: 5px;
   overflow: hidden;
-  background: #000;
-  box-shadow: 0 0 12px var(--neon-green), inset 0 0 40px rgba(57, 255, 20, 0.1);
+  isolation: isolate;
+
+  border: 2px solid rgba(163, 255, 18, 0.65);
+  border-radius: 15px;
+
+  background: #030711;
+
+  box-shadow:
+    0 0 0 5px #080a18,
+    0 0 0 7px rgba(255, 255, 255, 0.06),
+    0 0 28px rgba(163, 255, 18, 0.16),
+    inset 0 0 35px rgba(0, 0, 0, 0.7);
 }
 
 canvas {
   display: block;
   width: 100%;
   height: 100%;
+
+  border-radius: 9px;
   image-rendering: pixelated;
 }
+
+/* Screen glass reflection */
+
+.screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.075),
+    transparent 32%,
+    transparent 70%,
+    rgba(41, 230, 255, 0.025)
+  );
+}
+
+/* Retro scanline effect */
 
 .scanlines {
   position: absolute;
   inset: 0;
+  z-index: 3;
   pointer-events: none;
+
   background: repeating-linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.25) 3px
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.13) 4px
   );
-  animation: flicker 0.15s infinite;
+
+  opacity: 0.65;
 }
+
+/* =========================
+   START / GAME OVER
+========================= */
 
 .overlay {
   position: absolute;
-  inset: 0;
+  inset: 5px;
+  z-index: 5;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  background: rgba(0, 0, 0, 0.7);
+  gap: 23px;
+  padding: 24px;
+
   text-align: center;
-  padding: 16px;
   cursor: pointer;
+
+  border-radius: 9px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(29, 24, 65, 0.9),
+      rgba(2, 5, 14, 0.96)
+    );
+
+  backdrop-filter: blur(7px);
+  animation: overlayAppear 0.35s ease-out;
 }
 
 .overlay.hidden {
@@ -115,57 +344,130 @@ canvas {
 }
 
 #overlay-title {
-  font-size: 1.2rem;
+  max-width: 100%;
+
+  font-size: clamp(0.9rem, 4vw, 1.4rem);
+  line-height: 1.9;
   color: var(--neon-pink);
-  text-shadow: 0 0 10px var(--neon-pink);
-  line-height: 1.6;
+
+  text-shadow:
+    0 0 12px rgba(255, 61, 145, 0.75),
+    0 0 30px rgba(255, 61, 145, 0.3);
 }
 
 #overlay-sub {
-  font-size: 0.55rem;
-  color: var(--text);
-  line-height: 1.8;
+  max-width: 300px;
+
+  font-size: clamp(0.48rem, 1.8vw, 0.65rem);
+  line-height: 2.4;
+  color: #c5c8e5;
 }
 
 .blink {
-  animation: blink 1s steps(2, start) infinite;
+  animation: blink 1.2s steps(2, start) infinite;
 }
 
+/* =========================
+   CONTROL INSTRUCTIONS
+========================= */
+
 .controls {
-  margin-top: 14px;
-  font-size: 0.45rem;
+  position: relative;
+  margin-top: 24px;
+  padding: 16px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: var(--muted);
+  font-size: 0.49rem;
+  line-height: 2.2;
   text-align: center;
-  color: #8888aa;
-  line-height: 1.8;
 }
+
+/* =========================
+   MOBILE D-PAD
+========================= */
 
 .dpad {
   display: none;
+
   grid-template-areas:
     ". up ."
     "left . right"
     ". down .";
-  grid-template-columns: repeat(3, 56px);
-  grid-template-rows: repeat(3, 56px);
-  gap: 6px;
+
+  grid-template-columns: repeat(3, 58px);
+  grid-template-rows: repeat(3, 58px);
+  gap: 7px;
   justify-content: center;
-  margin-top: 16px;
+
+  margin-top: 24px;
 }
 
 .dpad button {
-  font-family: inherit;
-  font-size: 1.1rem;
-  background: #222244;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(41, 230, 255, 0.55);
+  border-radius: 14px;
+
+  background: linear-gradient(
+    145deg,
+    #252b4b,
+    #12162d
+  );
+
   color: var(--neon-cyan);
-  border: 2px solid var(--neon-cyan);
-  border-radius: 8px;
-  box-shadow: 0 0 8px var(--neon-cyan);
+  font-family: inherit;
+  font-size: 1.2rem;
+
+  box-shadow:
+    0 5px 0 #080b1b,
+    0 7px 15px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  cursor: pointer;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.dpad button:hover {
+  background: linear-gradient(
+    145deg,
+    #303b65,
+    #1c2446
+  );
+
+  box-shadow:
+    0 5px 0 #080b1b,
+    0 0 15px rgba(41, 230, 255, 0.25);
 }
 
 .dpad button:active {
+  transform: translateY(4px);
+
   background: var(--neon-cyan);
-  color: #000;
+  color: #06111c;
+
+  box-shadow:
+    0 1px 0 #080b1b,
+    0 0 18px rgba(41, 230, 255, 0.45);
+}
+
+.dpad button:focus-visible {
+  outline: 2px solid var(--neon-yellow);
+  outline-offset: 4px;
 }
 
 .dpad .up { grid-area: up; }
@@ -173,16 +475,95 @@ canvas {
 .dpad .left { grid-area: left; }
 .dpad .right { grid-area: right; }
 
-@media (pointer: coarse) {
-  .dpad { display: grid; }
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes titleGlow {
+  0%, 100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.25);
+  }
 }
 
 @keyframes blink {
-  to { visibility: hidden; }
+  to {
+    visibility: hidden;
+  }
 }
 
-@keyframes flicker {
-  0% { opacity: 0.95; }
-  50% { opacity: 1; }
-  100% { opacity: 0.97; }
+@keyframes overlayAppear {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (pointer: coarse) {
+  .dpad {
+    display: grid;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 14px;
+    align-items: flex-start;
+  }
+
+  .cabinet {
+    padding: 17px;
+    border-radius: 21px;
+  }
+
+  .marquee {
+    padding: 12px 2px 18px;
+  }
+
+  .marquee h1 {
+    font-size: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .hud {
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+
+  .hud > * {
+    padding: 10px 5px;
+    font-size: 0.43rem;
+  }
+
+  .controls {
+    margin-top: 20px;
+    padding: 12px 8px;
+    font-size: 0.42rem;
+  }
+
+  .dpad {
+    grid-template-columns: repeat(3, 55px);
+    grid-template-rows: repeat(3, 55px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
