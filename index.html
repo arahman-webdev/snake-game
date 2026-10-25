@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro Snake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cabinet">
+    <header class="marquee">
+      <h1>SNAKE</h1>
+    </header>
+
+    <div class="hud">
+      <div>SCORE <span id="score">0</span></div>
+      <div>LEVEL <span id="level">1</span></div>
+      <div>HI <span id="highscore">0</span></div>
+    </div>
+
+    <div class="screen">
+      <canvas id="game" width="400" height="400"></canvas>
+      <div class="scanlines"></div>
+      <div id="overlay" class="overlay">
+        <p id="overlay-title" class="blink">INSERT COIN</p>
+        <p id="overlay-sub">PRESS SPACE OR TAP TO START</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <p>ARROWS / WASD: MOVE &nbsp;·&nbsp; SPACE: PAUSE &nbsp;·&nbsp; M: SOUND</p>
+    </div>
+
+    <div class="dpad" aria-label="Touch controls">
+      <button data-dir="up" class="up">▲</button>
+      <button data-dir="left" class="left">◀</button>
+      <button data-dir="right" class="right">▶</button>
+      <button data-dir="down" class="down">▼</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
